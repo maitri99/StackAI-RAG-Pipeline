@@ -1,6 +1,6 @@
-# RAG Pipeline — Document Q&A System
+# RAG Pipeline - Document Q&A System
 
-A production-grade Retrieval-Augmented Generation (RAG) pipeline built entirely from scratch using **FastAPI** and **Mistral AI**. No external RAG libraries (LangChain, LlamaIndex, Haystack) or third-party vector databases are used — all retrieval logic is implemented directly.
+A production-grade Retrieval-Augmented Generation (RAG) pipeline built entirely from scratch using **FastAPI** and **Mistral AI**. No external RAG libraries (LangChain, LlamaIndex, Haystack) or third-party vector databases are used - all retrieval logic is implemented directly.
 
 ---
 
@@ -154,7 +154,7 @@ similarity = embeddings_matrix @ query_vector
 
 Pre-normalizing all vectors at ingestion time means the dot product equals cosine similarity, making query-time search very fast. This intentionally replaces external vector databases (Pinecone, Qdrant, Chroma) to demonstrate the underlying retrieval math directly.
 
-**Production path:** For >100k chunks, swap the NumPy matrix for FAISS or Qdrant without changing any other component — the VectorStore interface stays identical.
+**Production path:** For >100k chunks, swap the NumPy matrix for FAISS or Qdrant without changing any other component - the VectorStore interface stays identical.
 
 ### 5. Hybrid Search: Semantic + BM25
 
@@ -189,13 +189,13 @@ After retrieving `top_k × 2` candidates via hybrid search, a re-ranking step as
 The generation system prompt strictly instructs the LLM:
 - Answer ONLY from the provided context
 - Cite every factual claim with `[SOURCE_N]` markers
-- If the context is insufficient, say so explicitly — never fabricate
+- If the context is insufficient, say so explicitly - never fabricate
 
 This prevents the LLM from using its training data as a knowledge source.
 
 ### 9. Hallucination Detection
 
-After generation, the answer is scanned for sentences containing specific factual claims (numbers, percentages, dollar amounts, proper nouns, quoted phrases). Each claim is checked against the retrieved context — claims whose key terms are absent from the context are flagged as potentially unsupported.
+After generation, the answer is scanned for sentences containing specific factual claims (numbers, percentages, dollar amounts, proper nouns, quoted phrases). Each claim is checked against the retrieved context - claims whose key terms are absent from the context are flagged as potentially unsupported.
 
 This is a heuristic approach. Production systems would use a dedicated NLI (Natural Language Inference) model for entailment checking.
 
@@ -366,14 +366,14 @@ Tests cover:
 | Pydantic | 2.8.2 | Data validation and API models | https://docs.pydantic.dev |
 | pytest | 8.3.2 | Testing framework | https://pytest.org |
 | httpx | 0.27.2 | Async HTTP client for tests | https://www.python-httpx.org |
-| Mistral AI API | — | Embeddings (mistral-embed) + Generation (mistral-small-latest) | https://docs.mistral.ai |
+| Mistral AI API | - | Embeddings (mistral-embed) + Generation (mistral-small-latest) | https://docs.mistral.ai |
 
 **Intentionally not used:**
-- ~~LangChain~~ — all retrieval logic implemented from scratch
-- ~~LlamaIndex~~ — no external RAG framework
-- ~~Haystack~~ — no external RAG framework
-- ~~Pinecone / Qdrant / Chroma~~ — NumPy vector store used instead
-- ~~FAISS~~ — pure NumPy cosine similarity used instead
+- ~~LangChain~~ - all retrieval logic implemented from scratch
+- ~~LlamaIndex~~ - no external RAG framework
+- ~~Haystack~~ - no external RAG framework
+- ~~Pinecone / Qdrant / Chroma~~ - NumPy vector store used instead
+- ~~FAISS~~ - pure NumPy cosine similarity used instead
 
 ---
 
